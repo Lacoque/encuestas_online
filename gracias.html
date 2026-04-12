@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¡Gracias!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:       #2d7a4f;
+      --green-light: #e8f5ee;
+      --green-mid:   #4aaa74;
+      --text:        #1a1a1a;
+      --muted:       #6b7280;
+      --white:       #ffffff;
+      --radius:      14px;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--green-light);
+      color: var(--text);
+    }
+
+    /* ── barra superior ── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 28px;
+      background: var(--white);
+      border-bottom: 1px solid #d1e8da;
+    }
+
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--green);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .brand { font-family: 'Fraunces', serif; font-size: 1.15rem; color: var(--green); }
+
+    /* ── principal ── */
+    main {
+      min-height: calc(100vh - 65px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px 60px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 24px rgba(45,122,79,0.10);
+      padding: 48px 40px 40px;
+      text-align: center;
+      animation: fadeUp .45s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* marca de verificación */
+    .check-wrap {
+      width: 72px; height: 72px;
+      background: var(--green-light);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      animation: popIn .5s cubic-bezier(.34,1.56,.64,1) .1s both;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.5); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .check-wrap svg { width: 36px; height: 36px; stroke: var(--green); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.9rem;
+      color: var(--green);
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: .97rem;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    /* ── DIVisor ── */
+    .divider {
+      border: none;
+      border-top: 1px solid #e5f0ea;
+      margin-bottom: 28px;
+    }
+
+    /* ── SECCIÓN DE COMENTARIOS
+ ── */
+    .feedback-label {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: left;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .optional-tag {
+      font-weight: 400;
+      color: var(--muted);
+      font-size: .82rem;
+      margin-left: 6px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      resize: vertical;
+      border: 1.5px solid #cde3d5;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .92rem;
+      color: var(--text);
+      background: #fafffe;
+      outline: none;
+      transition: border-color .2s;
+    }
+    textarea:focus { border-color: var(--green-mid); }
+    textarea::placeholder { color: #aac4b4; }
+
+    .send-btn {
+      margin-top: 14px;
+      width: 100%;
+      padding: 13px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .send-btn:hover { background: #235f3d; transform: translateY(-1px); }
+    .send-btn svg { width: 17px; height: 17px; stroke: #fff; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── ESTADO ── */
+    .sent-msg {
+      display: none;
+      margin-top: 14px;
+      font-size: .88rem;
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: .78rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+    </div>
+    <span class="brand">Encuesta</span>
+  </header>
+
+  <main>
+    <div class="card">
+
+      <div class="check-wrap">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+
+      <h1>¡Muchas gracias!</h1>
+      <p class="subtitle">
+        Tu respuesta fue registrada.<br/>
+        Tu tiempo y opinión son muy valiosos para nosotros.
+      </p>
+
+      <hr class="divider" />
+
+      <!-- opcional FEEDBACK -->
+      <label class="feedback-label">
+        ¿Algo que quieras agregar o mejorar?
+        <span class="optional-tag">(opcional)</span>
+      </label>
+      <textarea id="feedbackText" placeholder="Tu comentario nos ayuda a mejorar las próximas encuestas…"></textarea>
+
+      <button class="send-btn" onclick="sendFeedback()">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Enviar comentario
+      </button>
+
+      <p class="sent-msg" id="sentMsg">✓ ¡Comentario enviado! Gracias por el aporte.</p>
+
+    </div>
+
+    <footer>Tu privacidad está protegida · Respuestas anónimas</footer>
+  </main>
+
+  <script>
+    function sendFeedback() {
+      const text = document.getElementById('feedbackText').value.trim();
+     
+      if (!text) return;
+
+      document.querySelector('.send-btn').style.display = 'none';
+      document.getElementById('sentMsg').style.display = 'block';
+      document.getElementById('feedbackText').disabled = true;
+    }
+  </script>
+
+</body>
+</html>
