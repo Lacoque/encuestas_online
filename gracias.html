@@ -222,26 +222,20 @@
       <hr class="divider" />
 
       <!-- opcional FEEDBACK -->
-       <!-- 1. Agregamos el <form> con netlify y nombre único -->
+    
         <form name="feedback" netlify method="POST">
-          <!-- 2. Campo anti-spam requerido por Netlify -->
           <input type="hidden" name="bot-field" />
     
           <label class="feedback-label">
             ¿Algo que quieras agregar o mejorar?
             <span class="optional-tag">(opcional)</span>
           </label>
-          
-          <!-- 3. Agregamos name="comentario" para que Netlify capture el texto -->
           <textarea id="feedbackText" name="comentario" placeholder="Tu comentario nos ayuda a mejorar las próximas encuestas…"></textarea>
-    
-          <!-- 4. type="button" evita recarga de página al estar dentro de un <form> -->
+  
           <button class="send-btn" type="button" onclick="sendFeedback()">
             <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             Enviar comentario
           </button>
-    
-          <!-- 5. Oculto por defecto, se muestra solo al éxito -->
           <p class="sent-msg" id="sentMsg" style="display: none;">✓ ¡Comentario enviado! Gracias por el aporte.</p>
         </form>
     
@@ -257,12 +251,12 @@
     
           const form = document.querySelector('form[name="feedback"]');
           const formData = new FormData(form);
-          formData.append('form-name', 'feedback'); // Obligatorio para Netlify + JS
+          formData.append('form-name', 'feedback');
     
           const btn = document.querySelector('.send-btn');
           const msg = document.getElementById('sentMsg');
     
-          // Mantenemos tu UX original
+          
           btn.style.display = 'none';
           textarea.disabled = true;
     
@@ -276,7 +270,6 @@
             if (res.ok) {
               msg.style.display = 'block';
             } else {
-              // Si falla, revertimos para que pueda reintentar
               btn.style.display = 'block';
               textarea.disabled = false;
               alert('Hubo un error al enviar. Intenta de nuevo.');
