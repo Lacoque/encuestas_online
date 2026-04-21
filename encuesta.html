@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Encuesta de Opinión</title>
+
+  <!-- ============================================================
+       META PIXEL
+  ============================================================ -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1578197793286246');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1578197793286246&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- FIN META PIXEL -->
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand:    #1B3A5C;
+      --accent:   #E8490F;
+      --bg:       #F5F3EE;
+      --surface:  #FFFFFF;
+      --text:     #1B1B1B;
+      --muted:    #7A7A72;
+      --border:   #E0DDD6;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+    }
+
+    /* ---- Layout ---- */
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    /* ---- Header ---- */
+    header {
+      background: var(--brand);
+      color: #fff;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .logo-area { display: flex; align-items: center; gap: 12px; }
+    .logo-mark {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px; color: #fff; font-weight: 400;
+    }
+    .logo-name {
+      font-size: 15px; font-weight: 500; letter-spacing: .02em;
+      opacity: .95;
+    }
+    .campo-badge {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .03em;
+      color: rgba(255,255,255,.9);
+      display: none;
+    }
+
+    /* ---- Hero band ---- */
+    .hero {
+      background: var(--brand);
+      color: #fff;
+      padding: 32px 32px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 28px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 400;
+      line-height: 1.25;
+      max-width: 560px;
+    }
+    .hero p {
+      margin-top: 10px;
+      font-size: 14px;
+      opacity: .7;
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    /* ---- Main content ---- */
+    main {
+      padding: 32px 24px 48px;
+      max-width: 780px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ---- Survey container ---- */
+    .survey-card {
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+
+    .survey-card iframe {
+      display: block;
+      width: 100%;
+      height: 640px;
+      border: none;
+    }
+
+    /* ---- Estado de error / loading ---- */
+    .estado {
+      padding: 64px 32px;
+      text-align: center;
+    }
+    .estado-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+    .estado h2 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .estado p {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 360px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    .estado-error { display: none; }
+
+    /* ---- Notas de privacidad ---- */
+    .privacy-note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+    .privacy-note a { color: var(--brand); text-decoration: none; }
+
+    /* ---- Footer ---- */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    footer a { color: inherit; text-decoration: none; }
+    footer a:hover { color: var(--brand); }
+
+    /* ---- Loading spinner ---- */
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      header { padding: 14px 16px; }
+      .hero { padding: 24px 16px 44px; }
+      main { padding: 20px 12px 40px; }
+      footer { flex-direction: column; text-align: center; gap: 4px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="page">
+
+  <header>
+    <div class="logo-area">
+      <div class="logo-mark">A</div>
+      <span class="logo-name">Agora Consultores</span>
+    </div>
+    <span class="campo-badge" id="campo-badge"></span>
+  </header>
+
+  <div>
+    <div class="hero">
+      <h1 id="hero-titulo">Encuesta de opinión pública</h1>
+      <p id="hero-subtitulo">Tu opinión es anónima y confidencial. Completarla toma menos de 5 minutos.</p>
+    </div>
+
+    <main>
+      <div class="survey-card" id="survey-card">
+        <!-- Estado: cargando -->
+        <div class="estado" id="estado-loading">
+          <div class="spinner"></div>
+          <h2>Cargando encuesta…</h2>
+          <p>Un momento por favor.</p>
+        </div>
+
+        <!-- Estado: error (campo no encontrado) -->
+        <div class="estado estado-error" id="estado-error">
+          <div class="estado-icon">⚠️</div>
+          <h2>Enlace no válido</h2>
+          <p>Este enlace de encuesta no es válido o ha expirado. Por favor usá el enlace que te compartió Agora Consultores.</p>
+        </div>
+
+        <!-- Estado: error de carga del iframe -->
+        <div class="estado estado-error" id="estado-iframe-error">
+          <div class="estado-icon">🔌</div>
+          <h2>No se pudo cargar la encuesta</h2>
+          <p>Hubo un problema al conectar con SurveyMonkey. Por favor, intentá de nuevo más tarde o verificá tu conexión a internet.</p>
+        </div>
+
+        <!-- El iframe se inserta acá dinámicamente -->
+      </div>
+
+      <p class="privacy-note">
+        Tus respuestas son anónimas y no se asocian a ningún dato personal.
+        Esta encuesta es realizada por <strong>Agora Consultores</strong>.
+      </p>
+    </main>
+  </div>
+
+  <footer>
+    <span>© <span id="year"></span> Agora Consultores</span>
+    <span>Investigación de opinión pública</span>
+  </footer>
+
+</div>
+
+<script>
+  // ============================================================
+  // CONFIGURACIÓN DE CAMPOS
+  // ============================================================
+  const CAMPOS = {
+    "do": {
+      nombre:    "República Dominicana",
+      titulo:    "Encuesta de opinión",
+      subtitulo: "Tu opinión es anónima y confidencial. Completarla toma menos de 5 minutos.",
+      surveyUrl: "https://es.surveymonkey.com/r/QWPNQN8"
+    }
+    // Agregá más campos acá con el mismo formato
+  };
+
+  // ============================================================
+  // CONFIGURACIÓN
+  // ============================================================
+  // URL de la página de agradecimiento (relativa al directorio actual)
+  const GRACIAS_URL = './gracias.html';
+  
+  // Tiempo máximo de espera para el iframe (ms)
+  const IFRAME_TIMEOUT = 8000;
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function init() {
+    const params  = new URLSearchParams(window.location.search);
+    const pais    = (params.get('pais') || '').toLowerCase().trim();
+    const campo   = CAMPOS[pais];
+
+    if (!campo) {
+      // Campo desconocido → mostrar error
+      document.getElementById('estado-loading').style.display = 'none';
+      document.getElementById('estado-error').style.display   = 'block';
+      return;
+    }
+
+    // ---- Actualizar textos ----
+    document.title = campo.titulo;
+    document.getElementById('hero-titulo').textContent    = campo.titulo;
+    document.getElementById('hero-subtitulo').textContent = campo.subtitulo;
+
+    const badge = document.getElementById('campo-badge');
+    badge.textContent    = campo.nombre;
+    badge.style.display  = 'inline-block';
+
+    // ---- Insertar iframe de SurveyMonkey ----
+    const card         = document.getElementById('survey-card');
+    const loading      = document.getElementById('estado-loading');
+    const iframeError  = document.getElementById('estado-iframe-error');
+    
+    let iframeLoaded   = false;
+    let timeoutId      = null;
+
+    const iframe = document.createElement('iframe');
+    iframe.src             = campo.surveyUrl;
+    iframe.title           = 'Encuesta de opinión — ' + campo.nombre;
+    iframe.allow           = 'fullscreen';
+    iframe.setAttribute('loading', 'lazy');
+    
+    // Sandbox de seguridad: permite scripts y formularios necesarios para SurveyMonkey
+    // pero restringe popups no deseados y acceso a ventana padre
+    iframe.sandbox         = 'allow-scripts allow-same-origin allow-forms allow-popups';
+
+    // Evento: iframe cargó correctamente
+    iframe.onload = function() {
+      iframeLoaded = true;
+      if (timeoutId) clearTimeout(timeoutId);
+      loading.style.display = 'none';
+    };
+
+    // Evento: error de carga del iframe
+    iframe.onerror = function() {
+      iframeLoaded = true;
+      if (timeoutId) clearTimeout(timeoutId);
+      loading.style.display = 'none';
+      iframeError.style.display = 'block';
+    };
+
+    // Fallback: si después de IFRAME_TIMEOUT no cargó, mostrar error
+    timeoutId = setTimeout(function() {
+      if (!iframeLoaded) {
+        loading.style.display = 'none';
+        iframeError.style.display = 'block';
+        
+        // Opcional: remover el iframe fallido para no consumir recursos
+        if (iframe.parentNode) {
+          iframe.parentNode.removeChild(iframe);
+        }
+      }
+    }, IFRAME_TIMEOUT);
+
+    card.appendChild(iframe);
+
+    // ---- Pixel: evento personalizado con metadata del campo ----
+    fbq('trackCustom', 'EncuestaVista', {
+      campo:  pais,
+      nombre: campo.nombre
+    });
+
+    // ---- Escuchar mensaje de SurveyMonkey al completar ----
+    // NOTA: SurveyMonkey no garantiza este evento en iframes embebidos.
+    // Como respaldo, configurá la redirección post-encuesta directamente 
+    // en la plataforma de SurveyMonkey.
+    window.addEventListener('message', function(event) {
+      // Validar origen por seguridad
+      if (!event.origin.includes('surveymonkey.com')) return;
+
+      var data = event.data || {};
+      
+      // Formatos posibles de completado
+      var isComplete = (
+        data.type === 'survey-complete' || 
+        data.eventType === 'completeSurvey' ||
+        data.surveyCompleted === true
+      );
+
+      if (isComplete) {
+        // Guardar campo en sessionStorage con manejo de errores
+        try { 
+          sessionStorage.setItem('encuesta_campo', pais); 
+        } catch(e) {
+          console.warn('No se pudo guardar en sessionStorage:', e);
+        }
+        
+        // Redirigir a página de agradecimiento (ruta relativa)
+        window.location.href = GRACIAS_URL + '?pais=' + encodeURIComponent(pais);
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
