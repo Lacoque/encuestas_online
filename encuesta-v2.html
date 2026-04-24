@@ -55,7 +55,8 @@
         -->
         <div class="survey-placeholder">
           <!-- form icon -->
-          <script>(function(t,e,s,n){var o,a,c;t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src="https://widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgdw9fJ8P1o8Ycxb1UlNxsJ8rGv3Z9vsBCZN02yuIcY32I.js",a.parentNode.insertBefore(c,a))})(window,document,"script","smcx-sdk");</script>
+           <!-- Aquí va el iframe de SurveyMonkey -->
+          <script>(function(t,e,s,n){var o,a,c;t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src="https://widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd79JQuf83ysugSs5wnzHwAlsqm3tTWxDHHuyCnS1Vi2f.js",a.parentNode.insertBefore(c,a))})(window,document,"script","smcx-sdk");</script>
         </div>
       </div>
 
@@ -63,6 +64,13 @@
 
     <footer>Tu privacidad está protegida · Respuestas anónimas</footer>
   </main>
-
+  <script>
+    window.addEventListener('message', function(event) {
+      // SurveyMonkey emite este mensaje al completar la encuesta
+      if (event.data && event.data.smcomplete) {
+        window.location.href = 'https://encuestadeopinion.netlify.app/gracias';
+      }
+    });
+  </script>
 </body>
 </html>

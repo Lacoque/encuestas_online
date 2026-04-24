@@ -55,10 +55,8 @@
         -->
         <div class="survey-placeholder">
           <!-- form icon -->
-          
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
-          <p>Aquí va el iframe de SurveyMonkey.<br/>
-          <code>Encuesta insertada</code> </p>
+           <!-- Aquí va el iframe de SurveyMonkey -->
+           <script>(function(t,e,s,n){var o,a,c;t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src="https://widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd79JQuf83ysugSs5wnzHwAn05KBhZc8nR5kVBVm7YJWK.js",a.parentNode.insertBefore(c,a))})(window,document,"script","smcx-sdk");</script>
         </div>
       </div>
 
@@ -66,6 +64,13 @@
 
     <footer>Tu privacidad está protegida · Respuestas anónimas</footer>
   </main>
-
+  <script>
+    window.addEventListener('message', function(event) {
+      // SurveyMonkey emite este mensaje al completar la encuesta
+      if (event.data && event.data.smcomplete) {
+        window.location.href = 'https://encuestadeopinion.netlify.app/gracias';
+      }
+    });
+  </script>
 </body>
 </html>
