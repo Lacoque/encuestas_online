@@ -59,6 +59,46 @@
   status = 200
 
 [[redirects]]
+  from = "/encuesta-v13"
+  to = "/encuesta-v13.html"
+  status = 200
+
+[[redirects]]
+  from = "/encuesta-v15"
+  to = "/encuesta-v15.html"
+  status = 200
+
+[[redirects]]
+  from = "/encuesta-v15"
+  to = "/encuesta-v15.html"
+  status = 200
+
+[[redirects]]
+  from = "/encuesta-v16"
+  to = "/encuesta-v6.html"
+  status = 200
+
+[[redirects]]
+  from = "/encuesta-v17"
+  to = "/encuesta-v17.html"
+  status = 200
+
+[[redirects]]
+  from = "/encuesta-v18"
+  to = "/encuesta-v18.html"
+  status = 200
+
+[[redirects]]
+  from = "/encuesta-v19"
+  to = "/encuesta-v19.html"
+  status = 200
+
+[[redirects]]
+  from = "/encuesta-v20"
+  to = "/encuesta-v20.html"
+  status = 200
+
+[[redirects]]
   from = "/gracias"
   to = "/gracias.html"
   status = 200
