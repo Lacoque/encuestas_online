@@ -27,49 +27,67 @@
   <!--  Meta Pixel Code -->
 </head>
 <body>
-
+ 
+  <!-- HONEYPOT: los bots llenan esto, los humanos no lo ven -->
+  <div class="hp-field" aria-hidden="true">
+    <input type="text" name="website" tabindex="-1" autocomplete="off" />
+  </div>
+ 
   <header>
     <div class="logo-icon">
-      <!-- clipboard icon -->
       <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
     </div>
     <span class="brand">Encuesta</span>
-  </header>
-
-  <main>
-    <div class="survey-card">
-
-      <div class="card-header">
-        <!-- clock / time icon -->
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-        <span>Completar esta encuesta toma menos de 3 minutos</span>
-      </div>
-
-      <div class="survey-embed">
-        <!--
-          ═══════════════════════════════════════════════
-           Reemplazá el bloque de abajo con el
-          snippet de "Encuesta insertada" de SurveyMonkey
-          ═══════════════════════════════════════════════
-        -->
-        <div class="survey-placeholder">
-          <!-- form icon -->
-         <!-- Aquí va el iframe de SurveyMonkey -->
-         <script>(function(t,e,s,n){var o,a,c;t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src="https://widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd79JQuf83ysugSs5wnzHwAku0RVjWUtcz8ETmTCSRtt1.js",a.parentNode.insertBefore(c,a))})(window,document,"script","smcx-sdk");</script>
-        </div>
-      </div>
-
+    <div class="badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      Menos de 3 minutos
     </div>
-
-    <footer>Tu privacidad está protegida · Respuestas anónimas</footer>
+  </header>
+ 
+  <main>
+    <div class="survey-embed">
+      <!--
+        ═══════════════════════════════════════════════
+       Pegá el iframe de SurveyMonkey
+        ═══════════════════════════════════════════════
+      -->
+      <div class="survey-placeholder">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+    </div>
   </main>
+ 
   <script>
+    // ── ANTI-BOT: bloquea si el honeypot fue completado ──
+    (function() {
+      var hp = document.querySelector('input[name="website"]');
+      if (hp && hp.value !== '') {
+        document.body.innerHTML = '';
+        window.stop();
+      }
+    })();
+ 
+    // ── ANTI-BOT: detecta si es un agente automatizado ──
+    (function() {
+      var botPatterns = /bot|crawl|spider|scraper|curl|python|wget|java|headless/i;
+      if (botPatterns.test(navigator.userAgent)) {
+        document.body.innerHTML = '';
+        window.stop();
+      }
+    })();
+ 
+    // ── ANTI-BOT: requiere interacción humana mínima ──
+    var humanDetected = false;
+    ['mousemove', 'touchstart', 'keydown', 'scroll'].forEach(function(evt) {
+      document.addEventListener(evt, function() { humanDetected = true; }, { once: true });
+    });
+ 
+    // ── REDIRECCIÓN al completar la encuesta 
     window.addEventListener('message', function(event) {
-      // SurveyMonkey emite este mensaje al completar la encuesta
       if (event.data && event.data.smcomplete) {
         window.location.href = 'https://encuestadeopinion.netlify.app/gracias';
       }
     });
   </script>
+ 
 </body>
 </html>
