@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Panel de Encuestas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:       #2d7a4f;
+      --green-light: #e8f5ee;
+      --green-mid:   #4aaa74;
+      --text:        #1a1a1a;
+      --muted:       #6b7280;
+      --white:       #ffffff;
+      --radius:      12px;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--green-light);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--white);
+      border-bottom: 1px solid #d1e8da;
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-icon {
+      width: 34px; height: 34px;
+      background: var(--green);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .brand { font-family: 'Fraunces', serif; font-size: 1.1rem; color: var(--green); }
+    .badge {
+      margin-left: auto;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: .78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 36px 20px 60px;
+    }
+
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .section-sub {
+      font-size: .88rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* ── LISTA ── */
+    #lista {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .encuesta-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 2px 10px rgba(45,122,79,0.07);
+      transition: box-shadow .2s;
+    }
+    .encuesta-card:hover { box-shadow: 0 4px 18px rgba(45,122,79,0.13); }
+
+    .card-info { flex: 1; }
+    .card-id {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--green-mid);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 3px;
+    }
+    .card-desc {
+      font-size: .97rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .card-btn {
+      flex-shrink: 0;
+      padding: 9px 18px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background .2s;
+    }
+    .card-btn:hover { background: #235f3d; }
+    .card-btn svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      font-size: .95rem;
+      padding: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-icon">
+    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+  </div>
+  <span class="brand">Panel de Encuestas</span>
+  <span class="badge" id="contador">0 encuestas</span>
+</header>
+
+<main>
+  <h1 class="section-title">Encuestas activas</h1>
+  <p class="section-sub">Solo vos ves esta página. Hacé clic en "Abrir" para ir a la encuesta.</p>
+  <div id="lista"></div>
+</main>
+
+<script>
+  // ═══════════════════════════════════════════════════════════
+  // AGREGÁ O EDITÁ ENCUESTAS ACÁ — solo tocás este array
+  // Cada línea es una encuesta: { id, descripcion }
+  // El botón se genera solo automáticamente
+  // ═══════════════════════════════════════════════════════════
+  const encuestas = [
+    { id: "v1",  descripcion: "Descripción de la encuesta v1" },
+    { id: "v2",  descripcion: "Descripción de la encuesta v2" },
+    // agregá más líneas acá con el mismo formato:
+    // { id: "v3", descripcion: "Mujeres - Córdoba - Mayo" },
+  ];
+
+  // ── Generación automática de cards ──
+  const lista = document.getElementById('lista');
+  const contador = document.getElementById('contador');
+  const base = window.location.origin;
+
+  contador.textContent = encuestas.length + (encuestas.length === 1 ? ' encuesta' : ' encuestas');
+
+  if (encuestas.length === 0) {
+    lista.innerHTML = '<p class="empty">No hay encuestas cargadas todavía.</p>';
+  } else {
+    encuestas.forEach(function(e) {
+      const url = base + '/encuesta-' + e.id;
+      const card = document.createElement('div');
+      card.className = 'encuesta-card';
+      card.innerHTML = `
+        <div class="card-info">
+          <div class="card-id">Encuesta ${e.id}</div>
+          <div class="card-desc">${e.descripcion}</div>
+        </div>
+        <a class="card-btn" href="${url}" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Abrir
+        </a>
+      `;
+      lista.appendChild(card);
+    });
+  }
+</script>
+
+</body>
+</html>
