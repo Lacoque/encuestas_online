@@ -56,8 +56,10 @@
        Pegá el iframe de SurveyMonkey
         ═══════════════════════════════════════════════
       -->
-      <script>(function(t,e,s,n){var o,a,c;t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src="https://widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd_2FeT_2B_2FSTlfOqfEJLxxIs05lxMTz23JYC2nqN_2FikUomoZ.js",a.parentNode.insertBefore(c,a))})(window,document,"script","smcx-sdk");</script>    // ── ANTI-BOT: bloquea si el honeypot fue completado ──
-    (function() {
+      <script>(function(t,e,s,n){var o,a,c;t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src="https://widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd1caHSCpdmdgZgGo5Fq6bqrPQrJjgO_2F2uBjbsBKR4xhV.js",a.parentNode.insertBefore(c,a))})(window,document,"script","smcx-sdk");</script>    
+    
+      <script>
+        (function() {
       var hp = document.querySelector('input[name="website"]');
       if (hp && hp.value !== '') {
         document.body.innerHTML = '';
