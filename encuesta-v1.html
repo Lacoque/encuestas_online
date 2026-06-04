@@ -45,7 +45,7 @@
     <span class="brand">Encuesta</span>
     <div class="badge">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-      Menos de 3 minutos
+      Menos de 5 minutos
     </div>
   </header>
  
@@ -85,12 +85,66 @@
       document.addEventListener(evt, function() { humanDetected = true; }, { once: true });
     });
  
-    // ── REDIRECCIÓN al completar la encuesta 
-    window.addEventListener('message', function(event) {
-      if (event.data && event.data.smcomplete) {
-        window.location.href = 'https://encuestas-online.pages.dev/gracias';
-      }
-    });
+
+    // FOOTER DE FEEDBACK: aparece después de 3 minutos
+    // No agrega peso a la carga inicial, todo se crea en el momento
+    setTimeout(function() {
+ 
+ // Estilos del footer, se inyectan solo cuando se necesitan
+ var style = document.createElement('style');
+ style.textContent =
+   '#fb{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #d1e8da;' +
+   'padding:8px 16px;display:flex;align-items:center;gap:8px;z-index:100;' +
+   'animation:fbUp .4s ease both}' +
+   '@keyframes fbUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}' +
+   '#fb label{font-size:.75rem;color:#6b7280;white-space:nowrap;flex-shrink:0}' +
+   '#fb input{flex:1;border:1.5px solid #cde3d5;border-radius:8px;padding:6px 10px;' +
+   'font-size:.8rem;font-family:inherit;outline:none;min-width:0;background:#fafffe}' +
+   '#fb input:focus{border-color:#4aaa74}' +
+   '#fb .fb-send{background:#2d7a4f;color:#fff;border:none;border-radius:8px;' +
+   'padding:7px 14px;font-size:.78rem;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit}' +
+   '#fb .fb-send:hover{background:#235f3d}' +
+   '#fb .fb-x{background:none;border:none;color:#6b7280;font-size:1.2rem;cursor:pointer;padding:2px 6px;line-height:1;flex-shrink:0}';
+ document.head.appendChild(style);
+
+ // HTML del footer
+ var bar = document.createElement('div');
+ bar.id = 'fb';
+ bar.innerHTML =
+   '<label>¿Comentarios?</label>' +
+   '<input type="text" id="fb-in" placeholder="Tu comentario nos ayuda a mejorar las próximas encuestas" maxlength="300" />' +
+   '<button class="fb-send" onclick="sendFB()">Enviar</button>' +
+   '<button class="fb-x" onclick="document.getElementById(\'fb\').remove()" aria-label="Cerrar">×</button>';
+ document.body.appendChild(bar);
+
+}, 3 * 60 * 1000);
+
+// Envío del feedback
+function sendFB() {
+ var text = (document.getElementById('fb-in') || {}).value;
+ if (!text || !text.trim()) return;
+ var btn = document.querySelector('#fb .fb-send');
+ btn.textContent = '…'; btn.disabled = true;
+ fetch('https://api.web3forms.com/submit', {
+   method: 'POST',
+   headers: { 'Content-Type': 'application/json' },
+   body: JSON.stringify({
+     access_key: '250f2ba5-3631-483c-b5f8-09ea6d0475ba',
+     subject: 'Comentario encuesta - Agora',
+     message: text.trim(),
+     from_name: 'Encuesta Online'
+   })
+ })
+ .then(function(r) { return r.json(); })
+ .then(function(d) {
+   var bar = document.getElementById('fb');
+   if (d.success && bar) {
+     bar.innerHTML = '<span style="font-size:.8rem;color:#2d7a4f;font-weight:600;margin:0 auto">✓ ¡Gracias por tu comentario!</span>';
+     setTimeout(function() { if (bar) bar.remove(); }, 3000);
+   }
+ })
+ .catch(function() { btn.textContent = 'Enviar'; btn.disabled = false; });
+}
   </script>
  
 </body>
